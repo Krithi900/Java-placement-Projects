@@ -1,0 +1,13 @@
+public class NumberSeries {
+    public static void main(String[] args) {
+
+        int[] arr = {5, 10, 9, 18, 17};
+
+        int last = arr[arr.length - 1];
+
+       
+        int next = last * 2;
+
+        System.out.println("Next number in series: " + next);
+    }
+}
