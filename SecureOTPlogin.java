@@ -1,4 +1,3 @@
-package JAVAPLACEMENT;
 import java.util.*;
 
 public class SecureLoginSystem {
