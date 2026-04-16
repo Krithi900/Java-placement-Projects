@@ -1,0 +1,141 @@
+
+import java.util.*;
+
+class FoodItem {
+    int id;
+    String name;
+    double price;
+
+    FoodItem(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    void display() {
+        System.out.println(id + ". " + name + " - Rs." + price);
+    }
+}
+
+class CartItem {
+    FoodItem food;
+    int quantity;
+
+    CartItem(FoodItem food, int quantity) {
+        this.food = food;
+        this.quantity = quantity;
+    }
+
+    double getTotal() {
+        return food.price * quantity;
+    }
+
+    void display() {
+        System.out.println(food.name + " x " + quantity + " = Rs." + getTotal());
+    }
+}
+
+public class OnlineFoodDeliverySystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<FoodItem> menu = new ArrayList<>();
+        ArrayList<CartItem> cart = new ArrayList<>();
+
+        menu.add(new FoodItem(1, "Burger", 120));
+        menu.add(new FoodItem(2, "Pizza", 250));
+        menu.add(new FoodItem(3, "Pasta", 180));
+        menu.add(new FoodItem(4, "Sandwich", 100));
+        menu.add(new FoodItem(5, "Juice", 60));
+
+        int choice;
+
+        do {
+            System.out.println("\n===== Online Food Delivery System =====");
+            System.out.println("1. View Menu");
+            System.out.println("2. Add to Cart");
+            System.out.println("3. View Cart");
+            System.out.println("4. Place Order");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- Food Menu ---");
+                    for (FoodItem item : menu) {
+                        item.display();
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("\n--- Food Menu ---");
+                    for (FoodItem item : menu) {
+                        item.display();
+                    }
+
+                    System.out.print("Enter food ID: ");
+                    int foodId = sc.nextInt();
+
+                    System.out.print("Enter quantity: ");
+                    int quantity = sc.nextInt();
+
+                    boolean found = false;
+
+                    for (FoodItem item : menu) {
+                        if (item.id == foodId) {
+                            cart.add(new CartItem(item, quantity));
+                            System.out.println(item.name + " added to cart.");
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("Invalid food ID.");
+                    }
+                    break;
+
+                case 3:
+                    if (cart.isEmpty()) {
+                        System.out.println("Cart is empty.");
+                    } else {
+                        System.out.println("\n--- Your Cart ---");
+                        double total = 0;
+                        for (CartItem c : cart) {
+                            c.display();
+                            total += c.getTotal();
+                        }
+                        System.out.println("Total Amount = Rs." + total);
+                    }
+                    break;
+
+                case 4:
+                    if (cart.isEmpty()) {
+                        System.out.println("Cart is empty. Add items before placing order.");
+                    } else {
+                        double total = 0;
+                        System.out.println("\n--- Order Summary ---");
+                        for (CartItem c : cart) {
+                            c.display();
+                            total += c.getTotal();
+                        }
+                        System.out.println("Final Bill = Rs." + total);
+                        System.out.println("Order placed successfully!");
+                        cart.clear();
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting system.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
