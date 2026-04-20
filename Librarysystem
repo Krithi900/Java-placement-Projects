@@ -1,0 +1,63 @@
+import java.util.*;
+import java.io.*;
+public class Librarysystem {
+	static ArrayList<String> books = new ArrayList<>();
+
+    static void addBook(String name) {
+        books.add(name);
+        System.out.println("Book added.");
+    }
+
+    static void issueBook(String name) {
+        if (books.remove(name)) {
+            System.out.println("Book issued.");
+        } else {
+            System.out.println("Book not available.");
+        }
+    }
+
+    static void returnBook(String name) {
+        books.add(name);
+        System.out.println("Book returned.");
+    }
+
+    static void saveToFile() throws Exception {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("books.txt"));
+        for (String b : books) {
+            bw.write(b);
+            bw.newLine();
+        }
+        bw.close();
+    }
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1.Add 2.Issue 3.Return 4.Save 5.Exit");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter book name: ");
+                    addBook(sc.nextLine());
+                    break;
+                case 2:
+                    System.out.print("Enter book name: ");
+                    issueBook(sc.nextLine());
+                    break;
+                case 3:
+                    System.out.print("Enter book name: ");
+                    returnBook(sc.nextLine());
+                    break;
+                case 4:
+                    saveToFile();
+                    break;
+                case 5:
+                    return;
+            }
+        }
+    }
+
+}
