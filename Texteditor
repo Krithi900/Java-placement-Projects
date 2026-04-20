@@ -1,0 +1,43 @@
+import java.util.*;
+import java.io.*;
+
+public class Texteditor {
+	static Stack<String> undo = new Stack<>();
+    static Stack<String> redo = new Stack<>();
+    static String text = "";
+
+    static void write(String newText) {
+        undo.push(text);
+        text += newText;
+        redo.clear();
+    }
+
+    static void undo() {
+        if (!undo.isEmpty()) {
+            redo.push(text);
+            text = undo.pop();
+        }
+    }
+
+    static void redo() {
+        if (!redo.isEmpty()) {
+            undo.push(text);
+            text = redo.pop();
+        }
+    }
+
+    public static void main(String[] args) {
+        write("Hello ");
+        write("World");
+
+        System.out.println(text);
+
+        undo();
+        System.out.println("After undo: " + text);
+
+        redo();
+        System.out.println("After redo: " + text);
+    }
+
+
+}
