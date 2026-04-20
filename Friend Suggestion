@@ -1,0 +1,56 @@
+import java.util.*;
+
+class Socialnetwork {
+
+    static Map<Integer, List<Integer>> graph = new HashMap<>();
+
+    // Add friendship (undirected)
+    static void addFriend(int u, int v) {
+        graph.putIfAbsent(u, new ArrayList<>());
+        graph.putIfAbsent(v, new ArrayList<>());
+
+        graph.get(u).add(v);
+        graph.get(v).add(u);
+    }
+
+    // Suggest friends (friends of friends)
+    static void suggestFriends(int user) {
+
+        if (!graph.containsKey(user)) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        Set<Integer> directFriends = new HashSet<>(graph.get(user));
+        Set<Integer> suggestions = new HashSet<>();
+
+        // Check friends of friends
+        for (int friend : directFriends) {
+            for (int fof : graph.getOrDefault(friend, new ArrayList<>())) {
+                if (fof != user && !directFriends.contains(fof)) {
+                    suggestions.add(fof);
+                }
+            }
+        }
+
+        System.out.println("Suggested Friends for " + user + ":");
+
+        if (suggestions.isEmpty()) {
+            System.out.println("No suggestions available.");
+        } else {
+            for (int s : suggestions) {
+                System.out.println(s);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        addFriend(1, 2);
+        addFriend(2, 3);
+        addFriend(3, 4);
+        addFriend(1, 5);
+
+        suggestFriends(1);
+    }
+}
